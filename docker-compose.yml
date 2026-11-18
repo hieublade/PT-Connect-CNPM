@@ -1,0 +1,44 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ptconnect-mysql
+    restart: unless-stopped
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: ptconnect
+      MYSQL_USER: ptuser
+      MYSQL_PASSWORD: ptpassword
+      TZ: Asia/Ho_Chi_Minh
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: ptconnect-web
+    restart: unless-stopped
+    ports:
+      - "8089:8089"
+    environment:
+      PTCONNECT_DB_URL: "jdbc:mysql://mysql:3306/ptconnect?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Ho_Chi_Minh"
+      PTCONNECT_DB_USER: "root"
+      PTCONNECT_DB_PASS: "root123"
+    volumes:
+      - ./src/main/webapp/uploads:/app/src/main/webapp/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
