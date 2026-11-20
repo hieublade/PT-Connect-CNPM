@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.IOException;
 
-@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
+@WebServlet(name = "ProfileServlet", urlPatterns = { "/profile" })
 @MultipartConfig(maxFileSize = 5 * 1024 * 1024)
 public class ProfileServlet extends HttpServlet {
     private UserDAO userDAO;
@@ -30,6 +30,7 @@ public class ProfileServlet extends HttpServlet {
 
         req.setAttribute("u", u);
         req.setAttribute("avatarURL", u != null ? u.getAvatarUrl() : "");
+        req.getRequestDispatcher("/WEB-INF/views/student/profile.jsp").forward(req, resp);
         req.getRequestDispatcher("/WEB-INF/views/student/profile.jsp").forward(req, resp);
     }
 
