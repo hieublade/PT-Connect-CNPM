@@ -1,7 +1,3 @@
--- =====================================================================
--- CSDL hệ thống PT Marketplace (Bản chuẩn hóa đồng bộ Thiết kế & Code)
--- Yêu cầu: MySQL 8.0.16+
--- =====================================================================
 CREATE DATABASE IF NOT EXISTS ptconnect CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE ptconnect;
 SET NAMES utf8mb4;
@@ -225,13 +221,13 @@ ALTER TABLE `courses`            ADD FOREIGN KEY (`pt_id`)           REFERENCES 
 ALTER TABLE `enrollments`        ADD FOREIGN KEY (`student_id`)      REFERENCES `users` (`id`);
 ALTER TABLE `enrollments`        ADD FOREIGN KEY (`course_id`)       REFERENCES `courses` (`id`);
 ALTER TABLE `availability_slots` ADD FOREIGN KEY (`pt_id`)           REFERENCES `pt_profiles` (`id`);
--- Kiểm soát dư thừa / toàn vẹn phụ thuộc hàm (enrollment_id -> student_id) bằng FK ghép
+
 ALTER TABLE `bookings`           ADD CONSTRAINT `fk_booking_enroll_student` FOREIGN KEY (`enrollment_id`, `student_id`) REFERENCES `enrollments` (`id`, `student_id`);
 ALTER TABLE `bookings`           ADD FOREIGN KEY (`student_id`)      REFERENCES `users` (`id`);
 ALTER TABLE `bookings`           ADD FOREIGN KEY (`slot_id`)         REFERENCES `availability_slots` (`id`);
 ALTER TABLE `reviews`            ADD FOREIGN KEY (`booking_id`)      REFERENCES `bookings` (`id`) ON DELETE CASCADE;
 ALTER TABLE `cancellations`      ADD FOREIGN KEY (`booking_id`)      REFERENCES `bookings` (`id`);
--- Khóa ngoại đơn: Tham chiếu tới tài khoản người hủy (cho phép NULL khi SYSTEM tự động hủy)
+
 ALTER TABLE `cancellations`      ADD FOREIGN KEY (`cancelled_by_id`) REFERENCES `users` (`id`);
 ALTER TABLE `workout_plans`      ADD FOREIGN KEY (`enrollment_id`)   REFERENCES `enrollments` (`id`);
 ALTER TABLE `workouts`           ADD FOREIGN KEY (`plan_id`)         REFERENCES `workout_plans` (`id`);
