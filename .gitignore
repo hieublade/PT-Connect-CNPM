@@ -1,30 +1,9 @@
-# Target build directory
 target/
-*.war
-*.jar
-
-# Maven wrapper
-!.mvn/wrapper/maven-wrapper.jar
-!mvnw
-!mvnw.cmd
-
-# IDE & Editor files
+*.class
 .idea/
 *.iml
 .vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS generated files
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Logs & temp
+.settings/
+.project
+.classpath
 *.log
-cookies.txt
-*.tmp
