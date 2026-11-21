@@ -40,7 +40,9 @@
                         <form method="post" action="${pageContext.request.contextPath}/pt-booking-approval" style="display:flex; gap:4px;">
                             <input type="hidden" name="action" value="REJECT">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <input type="text" name="reason" placeholder="Lý do từ chối" required style="width:120px; padding:4px;">
+                            <input type="text" name="reason" placeholder="Lý do từ chối" required style="width:120px; padding:4px;"
+                                   oninvalid="this.setCustomValidity('Vui lòng nhập lý do từ chối ca tập!')"
+                                   oninput="this.setCustomValidity('')">
                             <button id="btnRejectBooking" type="submit" class="btn btn-danger">Từ Chối</button>
                         </form>
                     </div>
@@ -92,7 +94,9 @@
                         <form method="post" action="${pageContext.request.contextPath}/pt-booking-approval" style="display:flex; gap:4px;">
                             <input type="hidden" name="action" value="CANCEL_CONFIRMED">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <input type="text" name="reason" placeholder="Lý do hủy" required style="width:110px; padding:4px;">
+                            <input type="text" name="reason" placeholder="Lý do hủy" required style="width:110px; padding:4px;"
+                                   oninvalid="this.setCustomValidity('Vui lòng nhập lý do hủy ca tập!')"
+                                   oninput="this.setCustomValidity('')">
                             <button id="btnCancelBooking" type="submit" class="btn btn-danger">Hủy Ca</button>
                         </form>
                     </div>
