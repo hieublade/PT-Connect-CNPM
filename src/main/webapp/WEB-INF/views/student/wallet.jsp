@@ -7,7 +7,7 @@
     <c:if test="${param.success == '1'}"><div class="alert-success">Nạp tiền thành công!</div></c:if>
     <c:if test="${param.error == 'amount'}"><div class="alert-error">Số tiền nạp phải từ 10.000 đ đến 100.000.000 đ.</div></c:if>
     <p><strong>Chủ tài khoản:</strong> ${sessionScope.currentUser.fullName} |
-       <strong>Trạng thái ví:</strong> <span class="badge badge-success">${wallet.status}</span></p>
+       <strong>Trạng thái ví:</strong> <span class="badge badge-success">${wallet.status == 'ACTIVE' ? 'Đang hoạt động' : wallet.status}</span></p>
     <p class="kpi-value">Số dư khả dụng: <fmt:formatNumber value="${wallet.balance}" type="number" maxFractionDigits="0"/> ${wallet.currency}</p>
 
     <form method="post" action="${pageContext.request.contextPath}/wallet">
@@ -19,9 +19,7 @@
         </div>
         <div class="form-row">
             <label>Số tiền nạp (VND)</label>
-            <input id="txtCustomAmount" type="number" name="amount" min="10000" max="100000000" value="2000000" required
-                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập số tiền cần nạp!' : (this.validity.rangeUnderflow ? 'Số tiền nạp tối thiểu là 10.000 đ!' : 'Số tiền nạp tối đa là 100.000.000 đ!'))"
-                   oninput="this.setCustomValidity('')">
+            <input id="txtCustomAmount" type="number" name="amount" min="10000" max="100000000" value="2000000" required>
         </div>
         <div class="form-row">
             <label>Phương thức thanh toán</label>

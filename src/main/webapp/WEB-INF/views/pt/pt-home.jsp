@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="card">
     <h2>Bảng điều khiển Huấn luyện viên — ${u.fullName}</h2>
-    <p><strong>Trạng thái xét duyệt hồ sơ:</strong> <span class="badge">${ptProfile.verificationStatus}</span>
+    <p><strong>Trạng thái xét duyệt hồ sơ:</strong> <span class="badge">${ptProfile.verificationStatus == 'VERIFIED' ? 'Đã xác thực' : (ptProfile.verificationStatus == 'REJECTED' ? 'Bị từ chối' : 'Chờ phê duyệt')}</span>
        | <strong>Đánh giá:</strong> ${ptProfile.averageRating}/5 (${ptProfile.totalReviews} lượt)</p>
     <div class="grid">
         <a id="btnBooking" class="btn" href="${pageContext.request.contextPath}/pt-booking-approval">Duyệt Lịch Dạy</a>

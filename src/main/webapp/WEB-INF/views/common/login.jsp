@@ -14,21 +14,23 @@
         <c:if test="${not empty error}">
             <div class="alert-error">${error}</div>
         </c:if>
+        <c:if test="${param.error == 'suspended'}">
+            <div class="alert-error">Tài khoản của bạn đã bị tạm khóa. Vui lòng liên hệ Quản trị viên để được hỗ trợ!</div>
+        </c:if>
+        <c:if test="${param.error == 'login_required'}">
+            <div class="alert-error">Vui lòng đăng nhập để tiếp tục!</div>
+        </c:if>
         <c:if test="${param.registered == '1'}">
             <div class="alert-success">Đăng ký thành công! Vui lòng đăng nhập.</div>
         </c:if>
         <form method="post" action="${pageContext.request.contextPath}/login">
             <div class="form-row">
                 <label>Email</label>
-                <input type="email" name="email" required placeholder="Nhập địa chỉ email"
-                       oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập địa chỉ email!' : 'Địa chỉ email không hợp lệ (cần có ký tự @)!')"
-                       oninput="this.setCustomValidity('')">
+                <input type="email" name="email" required placeholder="Nhập địa chỉ email">
             </div>
             <div class="form-row">
                 <label>Mật khẩu</label>
-                <input type="password" name="password" required placeholder="Nhập mật khẩu"
-                       oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu!')"
-                       oninput="this.setCustomValidity('')">
+                <input type="password" name="password" required placeholder="Nhập mật khẩu">
             </div>
             <button type="submit" class="btn" style="width: 100%;">Đăng nhập</button>
         </form>

@@ -10,6 +10,12 @@
         <a id="btnRefresh" class="btn btn-secondary" href="${pageContext.request.contextPath}/discovery-pt">Làm mới</a>
     </form>
     <p>Tìm thấy <strong>${listPT.size()}</strong> Huấn luyện viên đã xác thực:</p>
+    <c:if test="${param.err == 'course_inactive'}">
+        <div class="alert-error">Khóa học này hiện đã ngưng mở bán!</div>
+    </c:if>
+    <c:if test="${param.err == 'cannot_purchase'}">
+        <div class="alert-error">Không tìm thấy thông tin khóa học hoặc không thể mua khóa học này!</div>
+    </c:if>
     <c:if test="${empty listPT}">
         <div class="alert-error">Không tìm thấy Huấn luyện viên phù hợp với từ khóa tìm kiếm.</div>
     </c:if>

@@ -3,11 +3,18 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="card" style="max-width:720px; margin:auto;">
     <h2>Đặt Lịch Tập Cùng Huấn Luyện Viên</h2>
-    <c:if test="${not empty param.err}"><div class="alert-error">Không thể đặt lịch (${param.err}). Vui lòng kiểm tra slot trống, lịch trùng giờ hoặc lượt học thử!</div></c:if>
+    <c:if test="${param.err == 'slot_unavailable'}"><div class="alert-error">Không thể đặt lịch: Khung giờ tập đã được đặt hoặc không còn khả dụng!</div></c:if>
+    <c:if test="${param.err == 'conflict'}"><div class="alert-error">Không thể đặt lịch: Lịch tập bị trùng giờ với một ca tập khác của bạn!</div></c:if>
+    <c:if test="${param.err == 'trial_exists'}"><div class="alert-error">Không thể đặt lịch: Bạn đã từng sử dụng lượt học thử với huấn luyện viên này rồi!</div></c:if>
+    <c:if test="${param.err == 'invalid_enroll'}"><div class="alert-error">Không thể đặt lịch: Hợp đồng không hợp lệ hoặc đã hết số buổi tập khả dụng!</div></c:if>
+    <c:if test="${param.err == 'failed'}"><div class="alert-error">Không thể đặt lịch: Đặt lịch ca tập thất bại, vui lòng thử lại sau!</div></c:if>
+    <c:if test="${not empty param.err and param.err != 'slot_unavailable' and param.err != 'conflict' and param.err != 'trial_exists' and param.err != 'invalid_enroll' and param.err != 'failed'}">
+        <div class="alert-error">Không thể đặt lịch. Vui lòng kiểm tra khung giờ trống, lịch trùng giờ hoặc lượt học thử!</div>
+    </c:if>
 
     <div style="display:flex; gap:8px; margin-bottom:16px;">
-        <a class="btn ${bookingType == 'PACKAGE' ? '' : 'btn-secondary'}" href="${pageContext.request.contextPath}/booking-package?bookingType=PACKAGE">Đặt theo Gói Khóa Học (PACKAGE)</a>
-        <a class="btn ${bookingType == 'TRIAL' ? '' : 'btn-secondary'}" href="${pageContext.request.contextPath}/booking-package?bookingType=TRIAL">Buổi Học Thử Miễn Phí (TRIAL)</a>
+        <a class="btn ${bookingType == 'PACKAGE' ? '' : 'btn-secondary'}" href="${pageContext.request.contextPath}/booking-package?bookingType=PACKAGE">Đặt theo Gói Khóa Học</a>
+        <a class="btn ${bookingType == 'TRIAL' ? '' : 'btn-secondary'}" href="${pageContext.request.contextPath}/booking-package?bookingType=TRIAL">Buổi Học Thử Miễn Phí</a>
     </div>
 
     <c:choose>

@@ -19,7 +19,7 @@
                 <td class="col-med">${e.trainingLocation}</td>
                 <td class="nowrap">${e.remainingSessions} / ${e.totalSessions}</td>
                 <td class="nowrap">${e.startDate}<br><small>đến ${e.endDate}</small></td>
-                <td><span class="badge badge-success">${e.status}</span></td>
+                <td><span class="badge badge-success">${e.status == 'ACTIVE' ? 'Đang hoạt động' : (e.status == 'COMPLETED' ? 'Đã hoàn thành' : e.status)}</span></td>
                 <td>
                     <div class="actions-col">
                         <form method="post" action="${pageContext.request.contextPath}/my-course">

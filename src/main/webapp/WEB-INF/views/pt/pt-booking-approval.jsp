@@ -5,13 +5,19 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="card">
     <h2>Quản Lý &amp; Phê Duyệt Lịch Tập</h2>
+    <c:if test="${param.msg == 'approved'}"><div class="alert-success">Đã phê duyệt ca tập thành công!</div></c:if>
+    <c:if test="${param.msg == 'rejected'}"><div class="alert-success">Đã từ chối ca tập thành công!</div></c:if>
+    <c:if test="${param.msg == 'cancelled'}"><div class="alert-success">Đã hủy ca tập thành công!</div></c:if>
+    <c:if test="${param.msg == 'otp_opened'}"><div class="alert-success">Đã mở mã OTP điểm danh cho ca tập!</div></c:if>
+    <c:if test="${param.msg == 'completed'}"><div class="alert-success">Hoàn tất buổi tập thành công!</div></c:if>
+    <c:if test="${param.msg == 'absent'}"><div class="alert-success">Đã ghi nhận học viên vắng mặt!</div></c:if>
     <form method="get" action="${pageContext.request.contextPath}/pt-booking-approval" style="display:flex; gap:8px; margin-bottom:12px;">
         <select id="optStatusFilter" name="statusFilter" style="padding:8px;">
             <option value="ALL" ${statusFilter == 'ALL' ? 'selected' : ''}>Tất cả trạng thái</option>
-            <option value="PENDING" ${statusFilter == 'PENDING' ? 'selected' : ''}>Chờ duyệt (PENDING)</option>
-            <option value="CONFIRMED" ${statusFilter == 'CONFIRMED' ? 'selected' : ''}>Đã xác nhận (CONFIRMED)</option>
-            <option value="COMPLETED" ${statusFilter == 'COMPLETED' ? 'selected' : ''}>Hoàn thành (COMPLETED)</option>
-            <option value="CANCELLED" ${statusFilter == 'CANCELLED' ? 'selected' : ''}>Đã hủy (CANCELLED)</option>
+            <option value="PENDING" ${statusFilter == 'PENDING' ? 'selected' : ''}>Chờ duyệt</option>
+            <option value="CONFIRMED" ${statusFilter == 'CONFIRMED' ? 'selected' : ''}>Đã xác nhận</option>
+            <option value="COMPLETED" ${statusFilter == 'COMPLETED' ? 'selected' : ''}>Hoàn thành</option>
+            <option value="CANCELLED" ${statusFilter == 'CANCELLED' ? 'selected' : ''}>Đã hủy</option>
         </select>
         <button type="submit" class="btn">Lọc</button>
     </form>
@@ -22,7 +28,7 @@
         <tbody>
         <c:forEach var="b" items="${pendingBookingList}">
             <tr>
-                <td>#${b.id}</td><td><span class="badge badge-warn">${b.bookingType}</span></td>
+                <td>#${b.id}</td><td><span class="badge badge-warn">${b.bookingType == 'TRIAL' ? 'Học thử' : 'Theo gói'}</span></td>
                 <td>${b.studentName} (${b.studentPhone})</td>
                 <td class="nowrap">
                     <div><strong>${fn:substring(b.slotStartTime, 0, 10)}</strong></div>
@@ -40,9 +46,7 @@
                         <form method="post" action="${pageContext.request.contextPath}/pt-booking-approval" style="display:flex; gap:4px;">
                             <input type="hidden" name="action" value="REJECT">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <input type="text" name="reason" placeholder="Lý do từ chối" required style="width:120px; padding:4px;"
-                                   oninvalid="this.setCustomValidity('Vui lòng nhập lý do từ chối ca tập!')"
-                                   oninput="this.setCustomValidity('')">
+                            <input type="text" name="reason" placeholder="Lý do từ chối" required style="width:120px; padding:4px;">
                             <button id="btnRejectBooking" type="submit" class="btn btn-danger">Từ Chối</button>
                         </form>
                     </div>
@@ -89,14 +93,12 @@
                         <form method="post" action="${pageContext.request.contextPath}/pt-booking-approval">
                             <input type="hidden" name="action" value="MARK_ABSENT">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <button id="btnMarkAbsent" type="submit" class="btn btn-secondary">Báo Vắng (ABSENT)</button>
+                            <button id="btnMarkAbsent" type="submit" class="btn btn-secondary">Báo Vắng</button>
                         </form>
                         <form method="post" action="${pageContext.request.contextPath}/pt-booking-approval" style="display:flex; gap:4px;">
                             <input type="hidden" name="action" value="CANCEL_CONFIRMED">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <input type="text" name="reason" placeholder="Lý do hủy" required style="width:110px; padding:4px;"
-                                   oninvalid="this.setCustomValidity('Vui lòng nhập lý do hủy ca tập!')"
-                                   oninput="this.setCustomValidity('')">
+                            <input type="text" name="reason" placeholder="Lý do hủy" required style="width:110px; padding:4px;">
                             <button id="btnCancelBooking" type="submit" class="btn btn-danger">Hủy Ca</button>
                         </form>
                     </div>

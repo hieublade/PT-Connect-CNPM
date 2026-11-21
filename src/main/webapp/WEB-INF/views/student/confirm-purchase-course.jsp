@@ -8,9 +8,19 @@
     <p id="lblFinalPrice"><strong>Học phí cần thanh toán:</strong> <fmt:formatNumber value="${finalPrice}" type="number" maxFractionDigits="0"/> đ</p>
     <p id="lblWalletBalance"><strong>Số dư ví hiện tại:</strong> <fmt:formatNumber value="${wallet.balance}" type="number" maxFractionDigits="0"/> đ</p>
 
+    <c:if test="${param.err == 'insufficient_balance'}">
+        <div class="alert-error">Số dư ví không đủ để thanh toán khóa học! Vui lòng <a href="${pageContext.request.contextPath}/wallet">nạp thêm tiền vào ví</a>.</div>
+    </c:if>
+    <c:if test="${param.err == 'enroll_failed'}">
+        <div class="alert-error">Không thể khởi tạo hợp đồng đào tạo. Vui lòng thử lại!</div>
+    </c:if>
+    <c:if test="${param.err == 'payment_failed'}">
+        <div class="alert-error">Giao dịch thanh toán khóa học thất bại. Vui lòng thử lại!</div>
+    </c:if>
+
     <c:choose>
         <c:when test="${alreadyEnrolled}">
-            <div class="alert-error">Đang theo học khóa này (Không thể mua trùng hợp đồng đang ACTIVE).</div>
+            <div class="alert-error">Bạn đang theo học khóa này (Không thể mua trùng hợp đồng đang hoạt động).</div>
         </c:when>
         <c:when test="${!enoughBalance}">
             <div class="alert-error">Số dư ví không đủ! Vui lòng <a href="${pageContext.request.contextPath}/wallet">nạp thêm tiền vào ví</a>.</div>

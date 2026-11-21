@@ -51,7 +51,7 @@ public class CancelBookingServlet extends HttpServlet {
                 : 24;
         boolean freeRefund = "PENDING".equals(booking.getStatus()) || hours >= 24;
 
-        String cancelPolicy = "Hủy ca PENDING hoặc hủy trước >= 24 giờ: hoàn lại 1 buổi tập (nếu theo gói). Hủy ca CONFIRMED < 24 giờ: không hoàn buổi và đền bù 50% giá trị buổi tập vào ví PT.";
+        String cancelPolicy = "Hủy ca Chờ duyệt hoặc hủy trước >= 24 giờ: hoàn lại 1 buổi tập (nếu theo gói). Hủy ca Đã xác nhận < 24 giờ: không hoàn buổi và đền bù 50% giá trị buổi tập vào ví Huấn luyện viên.";
         String benefitWarning;
         if ("TRIAL".equals(booking.getBookingType())) {
             benefitWarning = "Ca học thử miễn phí: chỉ giải phóng khung giờ đã đặt.";
@@ -61,7 +61,7 @@ public class CancelBookingServlet extends HttpServlet {
             BigDecimal comp = booking.getSessionFee() != null
                     ? booking.getSessionFee().multiply(BigDecimal.valueOf(0.5)).setScale(0, RoundingMode.HALF_UP)
                     : BigDecimal.ZERO;
-            benefitWarning = "Hủy sát giờ (< 24 giờ): KHÔNG được hoàn buổi và đền bù " + comp + " đ (50%) vào ví PT.";
+            benefitWarning = "Hủy sát giờ (< 24 giờ): KHÔNG được hoàn buổi và đền bù " + comp + " đ (50%) vào ví Huấn luyện viên.";
         }
 
         req.setAttribute("booking", booking);

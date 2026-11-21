@@ -9,17 +9,15 @@
     <p id="lblFullName"><strong>Họ và tên:</strong> ${u.fullName}</p>
     <p id="lblEmail"><strong>Email:</strong> ${u.email}</p>
     <p id="lblPhone"><strong>Số điện thoại:</strong> ${u.phone}</p>
-    <p id="lblRole"><strong>Vai trò:</strong> <span class="badge">${u.role}</span></p>
-    <p id="lblStatus"><strong>Trạng thái tài khoản:</strong> <span class="badge badge-success">${u.status}</span></p>
+    <p id="lblRole"><strong>Vai trò:</strong> <span class="badge">${u.role == 'STUDENT' ? 'Học viên' : (u.role == 'PT' ? 'Huấn luyện viên' : 'Quản trị viên')}</span></p>
+    <p id="lblStatus"><strong>Trạng thái tài khoản:</strong> <span class="badge badge-success">${u.status == 'ACTIVE' ? 'Đang hoạt động' : (u.status == 'SUSPENDED' ? 'Bị tạm khóa' : u.status)}</span></p>
 
     <hr style="margin:16px 0; border:none; border-top:1px solid #e2e8f0;">
     <form method="post" action="${pageContext.request.contextPath}/profile">
         <input type="hidden" name="action" value="SAVE_URL">
         <div class="form-row">
             <label>Đường dẫn URL ảnh đại diện</label>
-            <input id="txtAvatarURL" type="url" name="avatarUrl" value="${avatarURL}" placeholder="https://..." required
-                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập đường dẫn URL ảnh!' : 'Vui lòng nhập đường dẫn URL hợp lệ (bắt đầu bằng http:// hoặc https://)!')"
-                   oninput="this.setCustomValidity('')">
+            <input id="txtAvatarURL" type="url" name="avatarUrl" value="${avatarURL}" placeholder="https://..." required>
         </div>
         <button id="btnSaveAvatarURL" type="submit" class="btn">Lưu Đường Link Ảnh</button>
     </form>
@@ -28,9 +26,7 @@
         <input type="hidden" name="action" value="UPLOAD_FILE">
         <div class="form-row">
             <label>Hoặc tải file ảnh từ máy tính (.png, .jpg, .webp)</label>
-            <input type="file" name="avatarFile" accept="image/*" required
-                   oninvalid="this.setCustomValidity('Vui lòng chọn một tệp ảnh (.png, .jpg, .webp) trước khi tải lên!')"
-                   oninput="this.setCustomValidity('')">
+            <input type="file" name="avatarFile" accept="image/*" required>
         </div>
         <button id="btnUploadFile" type="submit" class="btn btn-secondary">Lưu Ảnh Tải Lên Làm Avatar</button>
     </form>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="card" id="lblPTInfor">
-    <h2>${pt.fullName} <span class="badge badge-success">${pt.verificationStatus}</span></h2>
+    <h2>${pt.fullName} <span class="badge badge-success">${pt.verificationStatus == 'VERIFIED' ? 'Đã xác thực' : (pt.verificationStatus == 'PENDING' ? 'Chờ duyệt' : pt.verificationStatus)}</span></h2>
     <p><strong>Đánh giá:</strong> ${pt.averageRating} / 5.0 (${pt.totalReviews} lượt đánh giá) | <strong>Kinh nghiệm:</strong> ${pt.experienceYears} năm</p>
     <p><strong>Liên hệ:</strong> ${pt.phone} | ${pt.email}</p>
     <p><strong>Giới thiệu:</strong> ${empty pt.bio ? 'Chưa có tiểu sử' : pt.bio}</p>
@@ -44,7 +44,7 @@
             <tr>
                 <td class="nowrap">${fn:replace(s.startTime, 'T', ' ')}</td>
                 <td class="nowrap">${fn:replace(s.endTime, 'T', ' ')}</td>
-                <td><span class="badge badge-success">${s.status}</span></td>
+                <td><span class="badge badge-success">${s.status == 'AVAILABLE' ? 'Còn trống' : s.status}</span></td>
             </tr>
         </c:forEach>
         </tbody>

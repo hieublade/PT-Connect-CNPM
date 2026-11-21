@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slide Thuyết Trình — PT-Connect (Công Nghệ Phần Mềm)</title>
+  <style>
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #ef4444;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Header & Navigation Bar */
+    .top-bar {
+      width: 100%;
+      max-width: 1060px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    button.btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    button.btn-outline:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .slide-indicator {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      min-width: 70px;
+      text-align: center;
+    }
+
+    /* Presentation Screen Area */
+    .slide-wrapper {
+      width: 100%;
+      max-width: 1060px;
+      min-height: 590px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-lg);
+      padding: 36px 44px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .slide-header {
+      margin-bottom: 22px;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 12px;
+    }
+
+    .slide-tag {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .slide-body {
+      flex: 1;
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Custom Layout Components */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card ul {
+      padding-left: 20px;
+      margin-top: 6px;
+    }
+
+    .card li {
+      margin-bottom: 6px;
+      font-size: 0.92rem;
+    }
+
+    /* Step Pipeline Diagram (No Sequence Diagram) */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 20px 0;
+      background: #f8fafc;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .pipe-step {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: center;
+      flex: 1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pipe-step .step-num {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .pipe-step .step-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .pipe-arrow {
+      color: #94a3b8;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    /* Comparison Table */
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    table.slide-table th {
+      background: #f1f5f9;
+      color: var(--text-main);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    table.slide-table td {
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    table.slide-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Speaker Notes Bar */
+    .speaker-notes-box {
+      margin-top: 20px;
+      background: #fffbeb;
+      border-left: 4px solid var(--accent-amber);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.88rem;
+      color: #78350f;
+    }
+
+    .speaker-notes-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #92400e;
+    }
+
+    /* Title Slide Specifics */
+    .title-slide-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      padding: 40px 20px;
+    }
+
+    .title-banner {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .title-sub {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 28px;
+    }
+
+    .title-meta-box {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+      padding: 16px 28px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .meta-item {
+      text-align: left;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    .meta-value {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    /* Print & Fullscreen styles */
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 12mm;
+      }
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .top-bar {
+        display: none !important;
+      }
+      .slide-wrapper {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+      }
+      .slide {
+        display: flex !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        min-height: 170mm;
+        padding: 5mm;
+        box-sizing: border-box;
+      }
+      .speaker-notes-box {
+        margin-top: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Controls Bar -->
+  <div class="top-bar">
+    <div class="brand-title">
+      <span>🏋️</span> <strong>PT-Connect</strong> — Slide Thuyết Trình
+    </div>
+    <div class="controls">
+      <button class="btn-outline" onclick="prevSlide()" id="prevBtn">◀ Trước</button>
+      <span class="slide-indicator" id="slideCount">1 / 12</span>
+      <button onclick="nextSlide()" id="nextBtn">Tiếp ▶</button>
+      <button class="btn-outline" onclick="toggleNotes()" title="Bật/Tắt Lời nói gợi ý">🎙️ Gợi ý nói</button>
+      <button class="btn-outline" onclick="window.print()" title="In ra PDF">🖨️ In PDF</button>
+    </div>
+  </div>
+
+  <!-- Slide Screen -->
+  <div class="slide-wrapper">
+
+    <!-- SLIDE 1 -->
+    <div class="slide active" id="slide-1">
+      <div class="title-slide-content">
+        <div class="slide-tag">Đồ Án Môn Học Công Nghệ Phần Mềm</div>
+        <div class="title-banner">PT-CONNECT</div>
+        <div class="title-sub">Nền Tảng Quản Lý & Kết Nối Huấn Luyện Viên Cá Nhân (Personal Trainer)</div>
+        <p style="color: var(--text-muted); max-width: 620px; font-size: 1.05rem;">
+          Ứng dụng chuẩn kiến trúc Java Web Enterprise (JSP Model 2 / MVC), tích hợp ký hợp đồng tự động PDF, đặt lịch & điểm danh xác thực OTP hai chiều.
+        </p>
+
+        <div class="title-meta-box">
+          <div class="meta-item">
+            <div class="meta-label">Kiến Trúc</div>
+            <div class="meta-value">MVC Model 2 (Jakarta EE)</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Cơ Sở Dữ Liệu</div>
+            <div class="meta-value">MySQL 8.0 + HikariCP</div>
+          </div>
+          <div class="meta-item">
+            <div class="meta-label">Thời Lượng Demo</div>
+            <div class="meta-value">8 — 10 Phút</div>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Em xin kính chào thầy/cô trong Hội đồng. Hôm nay em xin đại diện nhóm trình bày đồ án môn Công nghệ phần mềm với đề tài: PT-Connect — Nền tảng quản lý và kết nối huấn luyện viên cá nhân, được xây dựng theo chuẩn kiến trúc MVC Model 2 trên nền tảng Java Servlet và JSP."
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="slide-tag">Thực Trạng Nghiệp Vụ</div>
+        <div class="slide-title">Đặt Vấn Đề & Nỗi Đau Thực Tế (Problem Statement)</div>
+      </div>
+      <div class="slide-body">
+        <p>Thuê huấn luyện viên thể hình tự do (Freelance PT) hiện nay phần lớn diễn ra qua tin nhắn hoặc thỏa thuận miệng, mang lại nhiều rủi ro cho cả hai phía:</p>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🎓 Về Phía Học Viên (Student)</div>
+            <ul>
+              <li><strong>Thiếu minh bạch:</strong> Khó kiểm chứng bằng cấp, chứng chỉ nghề nghiệp của PT tự do.</li>
+              <li><strong>Rủi ro cam kết:</strong> Dễ bị hủy lịch sát giờ, không có hợp đồng ràng buộc pháp lý rõ ràng.</li>
+              <li><strong>Tranh chấp quyền lợi:</strong> Dễ nhầm lẫn số buổi tập còn lại, quy trình hoàn tiền mơ hồ khi PT nghỉ dạy.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🏋️ Về Phía Huấn Luyện Viên (PT)</div>
+            <ul>
+              <li><strong>Quản lý thủ công:</strong> Xếp lịch qua chat/Excel dễ trùng giờ tập (Slot conflict) giữa các học viên.</li>
+              <li><strong>Bị bùng lịch:</strong> Học viên hủy ca sát giờ mà PT không có cơ chế bồi thường thu nhập.</li>
+              <li><strong>Phân tán giáo án:</strong> Khó khăn trong việc giao bài tập, lưu trữ số tạ và đo lường tiến độ học viên.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Xuất phát từ thực tế việc thuê PT cá nhân hiện nay chủ yếu qua thỏa thuận miệng hoặc tin nhắn: Học viên thì lo ngại chất lượng PT và sợ mất tiền oan; ngược lại PT cũng gặp khó khăn khi quản lý lịch rảnh dễ bị trùng giờ, hoặc bị học viên hủy sát giờ gây thiệt hại thu nhập. Vì vậy nhóm em xây dựng PT-Connect để chuẩn hóa toàn bộ quy trình này."
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="slide-tag">Định Hướng Hệ Thống</div>
+        <div class="slide-title">Giải Pháp PT-Connect & Chu Trình Khép Kín</div>
+      </div>
+      <div class="slide-body">
+        <p>PT-Connect số hóa toàn diện quy trình huấn luyện cá nhân thành chu trình 5 bước minh bạch, tự động:</p>
+        
+        <div class="pipeline">
+          <div class="pipe-step">
+            <div class="step-num">Bước 1</div>
+            <div class="step-title">🛡️ Xác Thực PT</div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">Admin duyệt chứng chỉ</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 2</div>
+            <div class="step-title">📄 Ký Hợp Đồng PDF</div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">Tự sinh hợp đồng điện tử</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 3</div>
+            <div class="step-title">📅 Đặt Lịch Slot</div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">Khung giờ chống trùng</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 4</div>
+            <div class="step-title">🔐 Điểm Danh OTP</div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">Xác thực 2 chiều khi tập</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 5</div>
+            <div class="step-title">📋 Giáo Án Cá Nhân</div>
+            <div style="font-size:0.75rem; color:#64748b; margin-top:2px;">Theo dõi sets & reps</div>
+          </div>
+        </div>
+
+        <div class="grid-3" style="margin-top: 14px;">
+          <div class="card">
+            <div class="card-title">👨‍💼 Phân Hệ Admin</div>
+            <p style="font-size: 0.88rem;">Kiểm duyệt chứng chỉ năng lực PT, giám sát toàn bộ luồng giao dịch và xử lý khiếu nại.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🏋️ Phân Hệ PT</div>
+            <p style="font-size: 0.88rem;">Tạo khóa học, mở khung giờ rảnh, duyệt ca tập, sinh mã OTP điểm danh và soạn giáo án.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🎓 Phân Hệ Học Viên</div>
+            <p style="font-size: 0.88rem;">Khám phá PT theo đánh giá, mua khóa học bằng Ví, tải hợp đồng PDF, nhập OTP điểm danh.</p>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Hệ thống giải quyết triệt để vấn đề cho cả 3 vai trò Admin, PT và Học viên với 15 Use Case cốt lõi, số hóa từ khâu kiểm duyệt bằng cấp, ký hợp đồng PDF tự động, đặt lịch theo slot, đến điểm danh OTP 2 chiều và giao giáo án."
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="slide-tag">Kiến Trúc Phần Mềm</div>
+        <div class="slide-title">Mô Hình Kiến Trúc MVC Model 2 (Jakarta EE)</div>
+      </div>
+      <div class="slide-body">
+        <div class="pipeline" style="justify-content: center; gap: 14px; margin-bottom: 16px;">
+          <div class="pipe-step" style="max-width: 140px;">
+            <div class="step-num">Tầng Biên</div>
+            <div class="step-title">🌐 Client Browser</div>
+          </div>
+          <div class="pipe-arrow">➔</div>
+          <div class="pipe-step" style="max-width: 170px;">
+            <div class="step-num">Bộ Lọc An Toàn</div>
+            <div class="step-title">🛡️ Auth & UTF-8 Filter</div>
+          </div>
+          <div class="pipe-arrow">➔</div>
+          <div class="pipe-step" style="max-width: 180px;">
+            <div class="step-num">Controller (Điều Khiển)</div>
+            <div class="step-title">⚙️ 24 Java Servlets</div>
+          </div>
+          <div class="pipe-arrow">➔</div>
+          <div class="pipe-step" style="max-width: 180px;">
+            <div class="step-num">Model (Dữ Liệu)</div>
+            <div class="step-title">📦 14 DAOs + 17 Entities</div>
+          </div>
+          <div class="pipe-arrow">➔</div>
+          <div class="pipe-step" style="max-width: 160px;">
+            <div class="step-num">Lưu Trữ</div>
+            <div class="step-title">🗄️ MySQL + HikariCP</div>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">👁️ View (`/WEB-INF/views/`)</div>
+            <p style="font-size: 0.88rem;">26 trang JSP thuần hiển thị, sử dụng <strong>JSTL 3.0</strong> và <strong>EL</strong>. Đặt hoàn toàn trong <code>WEB-INF</code> để ngăn ngừa truy cập trực tiếp từ bên ngoài.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">⚙️ Controller (`controller/`)</div>
+            <p style="font-size: 0.88rem;">24 Servlet đảm nhận tiếp nhận request, validate dữ liệu, điều phối nghiệp vụ và forward dữ liệu sang tầng View.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">📦 Model (`model/`)</div>
+            <p style="font-size: 0.88rem;">Tách biệt hoàn toàn giữa <strong>Entity POJO</strong> và <strong>DAO (Data Access Object)</strong>. Toàn bộ câu lệnh SQL được đóng gói bên trong DAO.</p>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Về kiến trúc, hệ thống tuân thủ nghiêm ngặt mô hình MVC Model 2. Mọi request đều phải đi qua Filter để kiểm tra phiên đăng nhập và phân quyền vai trò trước khi vào Servlet Controller. Tầng JSP chỉ dùng JSTL và EL để hiển thị, tuyệt đối không chứa mã Java hay SQL. Toàn bộ truy vấn dữ liệu được đóng gói gọn trong tầng DAO."
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="slide-tag">Nền Tảng Công Nghệ</div>
+        <div class="slide-title">Tech Stack & Thư Viện Chuyên Dụng</div>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th style="width: 28%;">Thành phần</th>
+              <th style="width: 32%;">Công nghệ / Thư viện</th>
+              <th>Vai trò & Ưu điểm kỹ thuật</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ngôn ngữ & Nền tảng</strong></td>
+              <td>Java 17 LTS, Jakarta EE 10</td>
+              <td>Hiệu năng cao, bảo mật bộ nhớ, hỗ trợ Records và cú pháp hiện đại.</td>
+            </tr>
+            <tr>
+              <td><strong>Servlet Engine</strong></td>
+              <td>Jakarta Servlet 6.0, JSTL 3.0</td>
+              <td>Xử lý request HTTP độc lập, tách biệt mã HTML và nghiệp vụ Java.</td>
+            </tr>
+            <tr>
+              <td><strong>Cơ sở dữ liệu & Pool</strong></td>
+              <td>MySQL 8.0 + HikariCP</td>
+              <td>HikariCP quản lý connection pool siêu nhanh, chống rò rỉ kết nối.</td>
+            </tr>
+            <tr>
+              <td><strong>Bảo mật mật khẩu</strong></td>
+              <td>jBCrypt (0.4)</td>
+              <td>Băm mật khẩu người dùng với muối (salt) tự sinh, chống tấn công từ điển.</td>
+            </tr>
+            <tr>
+              <td><strong>Xuất Hợp Đồng PDF</strong></td>
+              <td>OpenPDF (2.0.3) + Unicode Font</td>
+              <td>Tự động sinh hợp đồng pháp lý điện tử tiếng Việt sắc nét, tải tức thì.</td>
+            </tr>
+            <tr>
+              <td><strong>Triển khai & Kiểm thử</strong></td>
+              <td>Maven, Docker Compose, JUnit 5</td>
+              <td>Đóng gói đồng nhất, khởi chạy dự án chỉ với một câu lệnh đơn giản.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Hệ thống sử dụng Java 17 và Jakarta EE 10, kết hợp HikariCP để quản lý Connection Pool hiệu năng cao. Mật khẩu người dùng được băm bằng BCrypt. Ngoài ra nhóm tích hợp thư viện OpenPDF để xuất hợp đồng tiếng Việt và đóng gói toàn bộ Web + MySQL bằng Docker Compose để triển khai nhanh chóng."
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="slide-tag">Phương Pháp Luận Phần Mềm</div>
+        <div class="slide-title">Tính Nhất Quán & Ánh Xạ 1–1 (Traceability)</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📐 Ánh Xạ Thiết Kế Sang Mã Nguồn</div>
+            <ul>
+              <li><strong>17 Entity Classes:</strong> Ánh xạ 1–1 chính xác từ sơ đồ lớp thực thể (<code>User</code>, <code>Student</code>, <code>PT</code>, <code>Enrollment</code>, <code>Booking</code>, <code>WorkoutPlan</code>...).</li>
+              <li><strong>14 DAO nghiệp vụ:</strong> Tương ứng trực tiếp 14 bảng quan hệ trong CSDL, kế thừa từ lớp cơ sở <code>DAO</code>.</li>
+              <li><strong>24 Servlets:</strong> Bao phủ đầy đủ 15 Use Case nghiệp vụ chính.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🧩 Áp Dụng OOP & Design Patterns</div>
+            <ul>
+              <li><strong>Kế thừa phân cấp (Inheritance):</strong> Lớp cha <code>User</code> phân nhánh thành <code>Student</code>, <code>PT</code>, <code>Admin</code>.</li>
+              <li><strong>DAO Pattern:</strong> Tách rời hoàn toàn tầng dữ liệu và logic Controller, giúp dễ dàng kiểm thử đơn vị.</li>
+              <li><strong>Filter Pattern:</strong> Kiểm soát xác thực và quyền hạn tập trung tại <code>AuthenticationFilter</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 14px; background: #eff6ff; border-color: #bfdbfe;">
+          <strong style="color: var(--primary);">💡 Điểm nhấn kỹ thuật:</strong> Mã nguồn thể hiện tính nhất quán tuyệt đối (Traceability). Khi giám khảo kiểm tra bất kỳ bảng CSDL hay sơ đồ lớp nào, đều có thể tìm thấy file Java tương ứng trong source code ngay lập tức.
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Điểm mạnh về mặt Công nghệ phần mềm của đồ án là tính truy vết 1–1 giữa thiết kế và cài đặt. Toàn bộ 17 lớp Entity, 14 DAO nghiệp vụ và 15 Use Case chính đều ánh xạ khớp với sơ đồ lớp và kịch bản thiết kế đã phân tích."
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="slide-tag">Cơ Chế Nghiệp Vụ Chuyên Sâu</div>
+        <div class="slide-title">State Machine & Thuật Toán Chống Trùng Giờ</div>
+      </div>
+      <div class="slide-body">
+        <p>Kiểm soát chặt chẽ vòng đời của một ca tập (Booking State Machine):</p>
+        
+        <div class="pipeline" style="margin-top: 12px;">
+          <div class="pipe-step">
+            <div class="step-num">Khởi Tạo</div>
+            <div class="step-title" style="color:#d97706;">⏳ PENDING</div>
+            <div style="font-size:0.75rem; color:#64748b;">Học viên vừa đặt lịch</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">PT Duyệt</div>
+            <div class="step-title" style="color:#2563eb;">✅ CONFIRMED</div>
+            <div style="font-size:0.75rem; color:#64748b;">Khóa slot trên lịch</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Xác Nhận OTP</div>
+            <div class="step-title" style="color:#059669;">🎉 COMPLETED</div>
+            <div style="font-size:0.75rem; color:#64748b;">Trừ đúng 1 buổi tập</div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 14px;">
+          <div class="card">
+            <div class="card-title">🚫 Ràng Buộc Phía PT (Mở Khung Giờ)</div>
+            <p style="font-size: 0.88rem;">Chặn tuyệt đối việc mở khung giờ ở thời gian quá khứ. Hệ thống tự động truy vấn kiểm tra không cho phép thời gian mở mới đè hoặc chồng lấn (overlap) vào bất kỳ slot nào đã tồn tại.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🛡️ Ràng Buộc Phía Học Viên (Đặt Lịch)</div>
+            <p style="font-size: 0.88rem;">Slot được chọn phải ở trạng thái <code>AVAILABLE</code>. Đồng thời kiểm tra học viên không được có bất kỳ ca tập nào khác trùng khoảng thời gian với slot đó.</p>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Để tránh lỗi dữ liệu, các thực thể cốt lõi được kiểm soát chặt chẽ bằng máy trạng thái hữu hạn. Một ca tập chỉ được phép chuyển từ Chờ duyệt sang Đã xác nhận, rồi mới đến Hoàn thành sau khi điểm danh OTP. Tương tự, hệ thống chặn hoàn toàn việc PT mở slot chồng lấn hoặc học viên đặt 2 ca trùng giờ."
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide" id="slide-8">
+      <div class="slide-header">
+        <div class="slide-tag">Toàn Vẹn Dữ Liệu</div>
+        <div class="slide-title">JDBC Transaction & Chính Sách Hủy Ca Tự Động</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🔒 Bảo Đảm ACID Bằng JDBC Transaction</div>
+            <p style="font-size: 0.88rem;">Các thao tác tài chính và thay đổi trạng thái phức tạp dùng chung một JDBC Connection với <code>setAutoCommit(false)</code>:</p>
+            <ul>
+              <li><strong>Bước 1:</strong> Khấu trừ số dư trong <code>Wallet</code>.</li>
+              <li><strong>Bước 2:</strong> Ghi lịch sử giao dịch vào <code>Payment</code>.</li>
+              <li><strong>Bước 3:</strong> Cấp hợp đồng <code>Enrollment</code> & chuyển slot.</li>
+            </ul>
+            <p style="font-size: 0.84rem; color: #dc2626; margin-top: 6px;">➔ Nếu xảy ra bất kỳ lỗi nào, kích hoạt <code>rollback()</code> toàn bộ, ngăn ngừa mất tiền oan.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-title">⚖️ Chính Sách Hủy Lịch Minh Bạch</div>
+            <ul>
+              <li><strong>Hủy trước ≥ 24 Giờ:</strong><br><span style="color:#059669; font-weight:600;">Hoàn lại 1 buổi tập</span> vào hợp đồng của học viên, mở lại khung giờ cho PT.</li>
+              <li><strong>Hủy sát giờ &lt; 24 Giờ:</strong><br><span style="color:#d97706; font-weight:600;">Không hoàn trả buổi</span> tập, trích <strong>50% giá trị buổi</strong> bồi thường thẳng vào Ví của PT để bù đắp thời gian chờ.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Đối với các nghiệp vụ nhạy cảm liên quan đến tiền và số buổi tập, nhóm em thiết kế lớp cha DAO(Connection conn) để chia sẻ cùng một Transaction. Mọi thao tác trừ ví, ghi nhận thanh toán và cấp hợp đồng đều nằm trong một khối Transaction duy nhất, đảm bảo tính toàn vẹn ACID."
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide" id="slide-9">
+      <div class="slide-header">
+        <div class="slide-tag">Kịch Bản Trình Chiếu 1</div>
+        <div class="slide-title">Demo Thực Nghiệm: Mua Khóa Tập & Ký Hợp Đồng PDF</div>
+      </div>
+      <div class="slide-body">
+        <p>Quy trình liền mạch từ lúc Học viên tìm kiếm cho đến khi cầm trên tay file hợp đồng điện tử hợp pháp:</p>
+
+        <div class="pipeline">
+          <div class="pipe-step">
+            <div class="step-num">Bước 1</div>
+            <div class="step-title">🔍 Khám Phá PT</div>
+            <div style="font-size:0.75rem; color:#64748b;">Xem rating & địa điểm</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 2</div>
+            <div class="step-title">🏋️ Xem Hồ Sơ & Gói</div>
+            <div style="font-size:0.75rem; color:#64748b;">Chọn khóa tập phù hợp</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 3</div>
+            <div class="step-title">💳 Thanh Toán Ví</div>
+            <div style="font-size:0.75rem; color:#64748b;">Khấu trừ tiền an toàn</div>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-step">
+            <div class="step-num">Bước 4</div>
+            <div class="step-title">📑 Xuất Hợp Đồng PDF</div>
+            <div style="font-size:0.75rem; color:#64748b;">Tải về máy tính tức thì</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 14px;">
+          <div class="card-title">🖥️ Dữ liệu tài khoản chuẩn bị demo</div>
+          <p style="font-size: 0.9rem;">
+            • Tài khoản học viên: <code>student.a@ptconnect.vn</code> (Mật khẩu: <code>123456</code>)<br>
+            • Trang thao tác: <code>/discovery-pt</code> ➔ <code>/pt-detail</code> ➔ <code>/confirm-purchase</code> ➔ <code>/my-course</code>
+          </p>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Sau đây em xin phép demo luồng nghiệp vụ thứ nhất: Học viên tìm kiếm PT, xem hồ sơ năng lực, tiến hành mua khóa học bằng ví điện tử và hệ thống tự động sinh file hợp đồng PDF để học viên tải về."
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide" id="slide-10">
+      <div class="slide-header">
+        <div class="slide-tag">Kịch Bản Trình Chiếu 2</div>
+        <div class="slide-title">Demo Tương Tác: Đặt Lịch, Duyệt Ca & Điểm Danh OTP 2 Chiều</div>
+      </div>
+      <div class="slide-body">
+        <p>Phối hợp tương tác thời gian thực giữa 2 tab trình duyệt (PT & Học viên):</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏋️ Phía Huấn Luyện Viên (PT)</div>
+            <ul>
+              <li>Đăng nhập <code>pt.hoangc@ptconnect.vn</code>.</li>
+              <li>Vào <strong>Quản lý khung giờ</strong> (<code>/manage-slot</code>) mở khung giờ rảnh.</li>
+              <li>Vào <strong>Duyệt lịch</strong> (<code>/pt-booking-approval</code>) bấm duyệt ca tập.</li>
+              <li>Đến giờ tập, bấm <strong>Mở OTP Điểm Danh</strong> (sinh mã ngẫu nhiên 6 chữ số).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🎓 Phía Học Viên (Student)</div>
+            <ul>
+              <li>Vào <strong>Đặt lịch theo gói</strong> (<code>/booking-package</code>) chọn slot vừa mở.</li>
+              <li>Vào <strong>Lịch của tôi</strong> (<code>/my-schedule</code>) nhập mã OTP 6 số do PT cung cấp.</li>
+              <li>Hệ thống xác thực mã khớp ➔ PT bấm <strong>Hoàn tất</strong> ➔ Trừ đúng 1 buổi tập còn lại.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Tiếp theo là luồng thứ hai thể hiện sự tương tác 2 chiều giữa PT và Học viên: từ lúc PT mở slot, Học viên đặt lịch, PT phê duyệt, mở mã OTP 6 số cho Học viên điểm danh xác thực và kết thúc buổi tập bằng việc trừ đúng 1 buổi trên hợp đồng."
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide" id="slide-11">
+      <div class="slide-header">
+        <div class="slide-tag">Chất Lượng Phần Mềm</div>
+        <div class="slide-title">Chiến Lược Kiểm Thử (Testing Strategy)</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🧪 1. Tự Động Hóa DAO (JUnit 5)</div>
+            <p style="font-size: 0.88rem;">15 file kiểm thử đơn vị độc lập kế thừa <code>BaseDAOTest</code>:</p>
+            <ul>
+              <li>Kiểm thử các hàm CRUD trên 14 bảng CSDL.</li>
+              <li>Kiểm thử các câu truy vấn phức tạp: lọc PT, tính số buổi còn lại, kiểm tra trùng lặp lịch.</li>
+              <li>Đảm bảo tính chính xác của dữ liệu trước khi ghép Controller.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🎯 2. Kiểm Thử Hộp Đen (Black-box)</div>
+            <p style="font-size: 0.88rem;">Áp dụng kỹ thuật <strong>Phân tích giá trị biên</strong> và <strong>Phân vùng tương đương</strong>:</p>
+            <ul>
+              <li><strong>Nạp ví:</strong> Test các biên <code>9.999đ</code> (fail), <code>10.000đ</code> (pass), <code>100.000.000đ</code>.</li>
+              <li><strong>Hủy lịch:</strong> Test mốc <code>23h59m</code> (phạt 50%) và <code>24h00m</code> (hoàn 100%).</li>
+              <li><strong>Tạo slot:</strong> Test biên <code>startTime &lt; now()</code> hoặc <code>start &gt;= end</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Về kiểm thử, nhóm kết hợp cả hai phương pháp: viết 15 lớp JUnit Test để kiểm thử tự động các phương thức ở tầng DAO, đồng thời thiết kế bộ Test Case hộp đen theo kỹ thuật phân vùng tương đương và giá trị biên cho các nghiệp vụ tài chính và ràng buộc thời gian."
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide" id="slide-12">
+      <div class="slide-header">
+        <div class="slide-tag">Tổng Kết Đồ Án</div>
+        <div class="slide-title">Kết Luận & Định Hướng Phát Triển</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏆 Kết Quả Đạt Được</div>
+            <ul>
+              <li>Hoàn thành 100% <strong>15 Use Case nghiệp vụ</strong> cho 3 nhóm đối tượng người dùng.</li>
+              <li>Tuân thủ chuẩn mực kiến trúc MVC Model 2, code sạch, tính truy vết 1–1 cao.</li>
+              <li>Đóng gói trọn vẹn với Docker Compose, chạy ổn định trên mọi môi trường.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🚀 Hướng Mở Rộng Tương Lai</div>
+            <ul>
+              <li><strong>Cổng thanh toán:</strong> Tích hợp VNPay / MoMo SDK thực tế.</li>
+              <li><strong>Thông báo đa kênh:</strong> Gửi thông báo đẩy qua WebSocket và Email nhắc lịch tập tự động.</li>
+              <li><strong>Ứng dụng di động:</strong> Phát triển Mobile App (Flutter/React Native) kết nối qua REST API.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 26px;">
+          <h3 style="color: var(--primary); font-size: 1.4rem;">Cảm Ơn Quý Thầy Cô & Hội Đồng Đã Lắng Nghe!</h3>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Kính mời Thầy Cô đặt câu hỏi và đóng góp ý kiến cho nhóm.</p>
+        </div>
+      </div>
+      <div class="speaker-notes-box">
+        <strong>🎙️ Lời nói gợi ý:</strong>
+        "Trên đây là toàn bộ phần trình bày và demo đồ án PT-Connect của nhóm em. Nhóm rất mong nhận được những ý kiến đóng góp quý báu từ thầy/cô để hoàn thiện sản phẩm tốt hơn. Em xin trân trọng cảm ơn!"
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 12;
+
+    function showSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+      currentSlide = index;
+
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        slide.classList.toggle('active', (idx + 1) === currentSlide);
+      });
+
+      document.getElementById('slideCount').innerText = `${currentSlide} / ${totalSlides}`;
+      document.getElementById('prevBtn').disabled = (currentSlide === 1);
+      document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) showSlide(currentSlide - 1);
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) showSlide(currentSlide + 1);
+    }
+
+    function toggleNotes() {
+      const notes = document.querySelectorAll('.speaker-notes-box');
+      notes.forEach(note => {
+        note.style.display = (note.style.display === 'none') ? 'block' : 'none';
+      });
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      }
+    });
+
+    showSlide(1);
+  </script>
+</body>
+</html>

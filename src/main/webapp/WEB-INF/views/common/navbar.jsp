@@ -3,7 +3,7 @@
 <div class="navbar">
     <c:choose>
         <c:when test="${sessionScope.currentUser.role == 'PT'}">
-            <a class="brand" href="${pageContext.request.contextPath}/pt-home">PT-Connect (PT)</a>
+            <a class="brand" href="${pageContext.request.contextPath}/pt-home">PT-Connect (HLV)</a>
             <div class="nav-links">
                 <a id="subBookingApproval" href="${pageContext.request.contextPath}/pt-booking-approval">Duyệt Lịch</a>
                 <a id="subSlot" href="${pageContext.request.contextPath}/manage-slot">Khung Giờ</a>
@@ -25,7 +25,7 @@
             </div>
         </c:when>
         <c:when test="${sessionScope.currentUser.role == 'STUDENT'}">
-            <a class="brand" href="${pageContext.request.contextPath}/student-home">PT-Connect (Student)</a>
+            <a class="brand" href="${pageContext.request.contextPath}/student-home">PT-Connect (Học viên)</a>
             <div class="nav-links">
                 <a id="subDiscoveryPt" href="${pageContext.request.contextPath}/discovery-pt">Khám Phá PT</a>
                 <a id="subBookSchedule" href="${pageContext.request.contextPath}/booking-package">Đặt Lịch</a>

@@ -195,6 +195,20 @@ public class PTBookingApprovalServlet extends HttpServlet {
             bookingDAO.completeBooking(bookingId);
         }
 
-        resp.sendRedirect(req.getContextPath() + "/pt-booking-approval");
+        if ("APPROVE".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval?msg=approved");
+        } else if ("REJECT".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval?msg=rejected");
+        } else if ("CANCEL_CONFIRMED".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval?msg=cancelled");
+        } else if ("OPEN_OTP".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval?msg=otp_opened");
+        } else if ("COMPLETE_SESSION".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval?msg=completed");
+        } else if ("MARK_ABSENT".equals(action)) {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval?msg=absent");
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/pt-booking-approval");
+        }
     }
 }

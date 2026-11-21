@@ -13,10 +13,10 @@
     <form method="get" action="${pageContext.request.contextPath}/my-schedule" style="display:flex; gap:8px; margin-bottom:12px;">
         <select id="optFilterStatus" name="status" style="padding:8px;">
             <option value="ALL" ${status == 'ALL' ? 'selected' : ''}>Tất cả ca tập</option>
-            <option value="PENDING" ${status == 'PENDING' ? 'selected' : ''}>Chờ HLV duyệt (PENDING)</option>
-            <option value="CONFIRMED" ${status == 'CONFIRMED' ? 'selected' : ''}>Đã xác nhận (CONFIRMED)</option>
-            <option value="COMPLETED" ${status == 'COMPLETED' ? 'selected' : ''}>Đã hoàn thành (COMPLETED)</option>
-            <option value="CANCELLED" ${status == 'CANCELLED' ? 'selected' : ''}>Đã hủy (CANCELLED)</option>
+            <option value="PENDING" ${status == 'PENDING' ? 'selected' : ''}>Chờ HLV duyệt</option>
+            <option value="CONFIRMED" ${status == 'CONFIRMED' ? 'selected' : ''}>Đã xác nhận</option>
+            <option value="COMPLETED" ${status == 'COMPLETED' ? 'selected' : ''}>Đã hoàn thành</option>
+            <option value="CANCELLED" ${status == 'CANCELLED' ? 'selected' : ''}>Đã hủy</option>
         </select>
         <button id="btnRefresh" type="submit" class="btn">Lọc / Làm mới</button>
     </form>
@@ -30,14 +30,14 @@
         <c:forEach var="b" items="${listBooking}">
             <tr>
                 <td>#${b.id}</td>
-                <td><span class="badge">${b.bookingType}</span></td>
+                <td><span class="badge">${b.bookingType == 'TRIAL' ? 'Học thử' : 'Theo gói'}</span></td>
                 <td>${b.ptName}</td>
                 <td class="nowrap">
                     <div><strong>${fn:substring(b.slotStartTime, 0, 10)}</strong></div>
                     <small>${fn:substring(b.slotStartTime, 11, 16)} – ${fn:substring(b.slotEndTime, 11, 16)}</small>
                 </td>
                 <td>${empty b.courseTitle ? 'Học thử miễn phí' : b.courseTitle}<br><small>${b.trainingLocation}</small></td>
-                <td><span class="badge">${b.status}</span></td>
+                <td><span class="badge ${b.status == 'CONFIRMED' ? 'badge-success' : (b.status == 'CANCELLED' ? 'badge-danger' : 'badge-warn')}">${b.status == 'PENDING' ? 'Chờ duyệt' : (b.status == 'CONFIRMED' ? 'Đã xác nhận' : (b.status == 'COMPLETED' ? 'Hoàn thành' : (b.status == 'CANCELLED' ? 'Đã hủy' : b.status)))}</span></td>
                 <td>
                     <c:if test="${b.status == 'PENDING' || b.status == 'CONFIRMED'}">
                         <a id="btnCancelBooking" class="btn btn-danger" href="${pageContext.request.contextPath}/cancel-booking?bookingId=${b.id}">Hủy Đặt Lịch</a>
@@ -46,9 +46,7 @@
                         <form method="post" action="${pageContext.request.contextPath}/my-schedule" style="margin-top:6px; display:flex; gap:4px;">
                             <input type="hidden" name="action" value="OTP_CHECKIN">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <input type="text" name="otpCode" placeholder="Nhập OTP 6 số" maxlength="6" style="width:120px; padding:4px;" required
-                                   oninvalid="this.setCustomValidity('Vui lòng nhập mã OTP 6 số!')"
-                                   oninput="this.setCustomValidity('')">
+                            <input type="text" name="otpCode" placeholder="Nhập OTP 6 số" maxlength="6" style="width:120px; padding:4px;" required>
                             <button id="btnOTPCheckin" type="submit" class="btn btn-success">Xác nhận OTP</button>
                         </form>
                     </c:if>

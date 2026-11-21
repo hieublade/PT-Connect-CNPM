@@ -4,6 +4,7 @@
 <div class="card">
     <h2>Quản Lý Giáo Án Học Viên</h2>
     <c:if test="${param.err == 'invalid_dates'}"><div class="alert-error">Ngày bắt đầu không được sau ngày kết thúc!</div></c:if>
+    <c:if test="${param.msg == 'ok'}"><div class="alert-success">Cập nhật giáo án thành công!</div></c:if>
     <form method="post" action="${pageContext.request.contextPath}/manage-workout-plan">
         <input type="hidden" name="action" value="CREATE_PLAN">
         <div class="grid">
@@ -20,13 +21,10 @@
                     <small id="lblEnrollmentInfo">Đang lọc hợp đồng PTC-HD-${enrollment.id}: ${enrollment.studentName} (${enrollment.remainingSessions}/${enrollment.totalSessions} buổi)</small>
                 </c:if>
             </div>
-            <div class="form-row"><label>Tiêu đề giáo án</label><input id="txtTitle" type="text" name="title" required
-                   oninvalid="this.setCustomValidity('Vui lòng nhập tiêu đề giáo án!')" oninput="this.setCustomValidity('')"></div>
+            <div class="form-row"><label>Tiêu đề giáo án</label><input id="txtTitle" type="text" name="title" required></div>
             <div class="form-row"><label>Mục tiêu</label><input id="txtGoal" type="text" name="goal"></div>
-            <div class="form-row"><label>Ngày bắt đầu</label><input id="txtStartDate" type="date" name="startDate" required
-                   oninvalid="this.setCustomValidity('Vui lòng chọn ngày bắt đầu!')" oninput="this.setCustomValidity('')"></div>
-            <div class="form-row"><label>Ngày kết thúc</label><input id="txtEndDate" type="date" name="endDate" required
-                   oninvalid="this.setCustomValidity('Vui lòng chọn ngày kết thúc!')" oninput="this.setCustomValidity('')"></div>
+            <div class="form-row"><label>Ngày bắt đầu</label><input id="txtStartDate" type="date" name="startDate" required></div>
+            <div class="form-row"><label>Ngày kết thúc</label><input id="txtEndDate" type="date" name="endDate" required></div>
         </div>
         <button id="btnCreatePlan" type="submit" class="btn">Tạo Giáo Án</button>
     </form>
@@ -65,18 +63,13 @@
             <form method="post" action="${pageContext.request.contextPath}/manage-workout-plan" style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
                 <input type="hidden" name="action" value="ADD_WORKOUT">
                 <input type="hidden" name="planId" value="${wp.id}">
-                <input type="text" name="exerciseName" placeholder="Tên bài tập" required
-                       oninvalid="this.setCustomValidity('Vui lòng nhập tên bài tập!')" oninput="this.setCustomValidity('')">
+                <input type="text" name="exerciseName" placeholder="Tên bài tập" required>
                 <input type="text" name="targetMuscle" placeholder="Nhóm cơ">
-                <input type="number" name="sets" value="3" style="width:70px;" min="1" required
-                       oninvalid="this.setCustomValidity('Số hiệp tối thiểu là 1!')" oninput="this.setCustomValidity('')">
-                <input type="number" name="reps" value="12" style="width:70px;" min="1" required
-                       oninvalid="this.setCustomValidity('Số lần lặp tối thiểu là 1!')" oninput="this.setCustomValidity('')">
+                <input type="number" name="sets" value="3" style="width:70px;" required>
+                <input type="number" name="reps" value="12" style="width:70px;" required>
                 <input type="number" name="weightKg" value="10" step="0.5" style="width:80px;">
-                <input type="number" name="restSeconds" value="60" style="width:80px;" min="0" required
-                       oninvalid="this.setCustomValidity('Thời gian nghỉ không được âm!')" oninput="this.setCustomValidity('')">
-                <input type="url" name="videoDemoUrl" placeholder="Video URL"
-                       oninvalid="this.setCustomValidity('Vui lòng nhập đúng đường dẫn video URL (http:// hoặc https://)!')" oninput="this.setCustomValidity('')">
+                <input type="number" name="restSeconds" value="60" style="width:80px;" required>
+                <input type="url" name="videoDemoUrl" placeholder="Video URL">
                 <button type="submit" class="btn">Thêm bài tập này</button>
             </form>
         </div>

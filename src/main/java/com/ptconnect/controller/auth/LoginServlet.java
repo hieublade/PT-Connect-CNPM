@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         if ("suspended".equals(req.getParameter("error"))) {
-            req.setAttribute("error", "Tài khoản của bạn đã bị tạm ngưng (SUSPENDED). Vui lòng liên hệ Quản trị viên!");
+            req.setAttribute("error", "Tài khoản của bạn đã bị tạm khóa. Vui lòng liên hệ Quản trị viên!");
         }
         req.getRequestDispatcher("/WEB-INF/views/common/login.jsp").forward(req, resp);
     }
@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if ("SUSPENDED".equals(user.getStatus())) {
-            req.setAttribute("error", "Tài khoản của bạn đã bị tạm ngưng (SUSPENDED). Vui lòng liên hệ Quản trị viên!");
+            req.setAttribute("error", "Tài khoản của bạn đã bị tạm khóa. Vui lòng liên hệ Quản trị viên!");
             req.getRequestDispatcher("/WEB-INF/views/common/login.jsp").forward(req, resp);
             return;
         }

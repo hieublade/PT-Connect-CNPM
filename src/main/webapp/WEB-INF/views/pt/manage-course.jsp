@@ -4,20 +4,16 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <div class="card">
     <h2>Quản Lý Khóa Học Mở Bán</h2>
-    <c:if test="${param.err == 'has_enrollment'}"><div class="alert-error">Khóa học đã có hợp đồng học viên, chỉ được Ngưng bán!</div></c:if>
+    <c:if test="${param.err == 'has_enrollment'}"><div class="alert-error">Khóa học đã có hợp đồng học viên, chỉ được ngưng mở bán!</div></c:if>
     <c:if test="${param.msg == 'ok'}"><div class="alert-success">Cập nhật khóa học thành công!</div></c:if>
 
     <form method="post" action="${pageContext.request.contextPath}/manage-course">
         <input type="hidden" name="action" value="CREATE">
         <div class="grid">
-            <div class="form-row"><label>Tên khóa học (*)</label><input id="txtTitle" type="text" name="title" required
-                   oninvalid="this.setCustomValidity('Vui lòng nhập tên khóa học!')" oninput="this.setCustomValidity('')"></div>
-            <div class="form-row"><label>Số buổi tập (*)</label><input id="txtTotalSessions" type="number" name="totalSessions" min="1" required
-                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập số buổi tập!' : 'Số buổi tập tối thiểu là 1 buổi!')" oninput="this.setCustomValidity('')"></div>
-            <div class="form-row"><label>Hạn sử dụng (ngày) (*)</label><input id="txtValidityDays" type="number" name="validityDays" min="1" required
-                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập hạn sử dụng khóa học!' : 'Hạn sử dụng tối thiểu là 1 ngày!')" oninput="this.setCustomValidity('')"></div>
-            <div class="form-row"><label>Học phí trọn gói (VND) (*)</label><input id="txtBasePrice" type="number" name="basePrice" min="0" required
-                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập học phí khóa học!' : 'Học phí không được là số âm!')" oninput="this.setCustomValidity('')"></div>
+            <div class="form-row"><label>Tên khóa học (*)</label><input id="txtTitle" type="text" name="title" required></div>
+            <div class="form-row"><label>Số buổi tập (*)</label><input id="txtTotalSessions" type="number" name="totalSessions" min="1" required></div>
+            <div class="form-row"><label>Hạn sử dụng (ngày) (*)</label><input id="txtValidityDays" type="number" name="validityDays" min="1" required></div>
+            <div class="form-row"><label>Học phí trọn gói (VND) (*)</label><input id="txtBasePrice" type="number" name="basePrice" min="0" required></div>
         </div>
         <div class="form-row"><label>Mô tả chi tiết</label><textarea id="txtDescription" name="description" rows="2"></textarea></div>
         <button id="btnCreateCourse" type="submit" class="btn">Tạo Khóa Học</button>
@@ -36,7 +32,7 @@
                 <td><fmt:formatNumber value="${c.basePrice}" type="number" maxFractionDigits="0"/> đ</td>
                 <td>${c.totalSessions}</td>
                 <td>${c.validityDays} ngày</td>
-                <td><span class="badge ${c.status == 'ACTIVE' ? 'badge-success' : 'badge-warn'}">${c.status}</span></td>
+                <td><span class="badge ${c.status == 'ACTIVE' ? 'badge-success' : 'badge-warn'}">${c.status == 'ACTIVE' ? 'Đang mở bán' : 'Ngưng mở bán'}</span></td>
                 <td>
                     <div class="actions">
                         <form method="post" action="${pageContext.request.contextPath}/manage-course">

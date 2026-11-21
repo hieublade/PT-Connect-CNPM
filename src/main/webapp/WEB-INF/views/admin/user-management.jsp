@@ -8,10 +8,10 @@
 
     <form method="get" action="${pageContext.request.contextPath}/user-management" style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
         <select id="optFilterRole" name="role" style="padding:8px;">
-            <option value="ALL" ${roleFilter == 'ALL' ? 'selected' : ''}>Tất cả</option>
-            <option value="STUDENT" ${roleFilter == 'STUDENT' ? 'selected' : ''}>STUDENT</option>
-            <option value="PT" ${roleFilter == 'PT' ? 'selected' : ''}>PT</option>
-            <option value="ADMIN" ${roleFilter == 'ADMIN' ? 'selected' : ''}>ADMIN</option>
+            <option value="ALL" ${roleFilter == 'ALL' ? 'selected' : ''}>Tất cả vai trò</option>
+            <option value="STUDENT" ${roleFilter == 'STUDENT' ? 'selected' : ''}>Học viên</option>
+            <option value="PT" ${roleFilter == 'PT' ? 'selected' : ''}>Huấn luyện viên</option>
+            <option value="ADMIN" ${roleFilter == 'ADMIN' ? 'selected' : ''}>Quản trị viên</option>
         </select>
         <button type="submit" class="btn">Lọc theo vai trò</button>
         <span id="lblCountFound">Tìm thấy <strong>${countFound}</strong> tài khoản</span>
@@ -26,8 +26,8 @@
                 <td><strong>${usr.fullName}</strong></td>
                 <td>${usr.email}</td>
                 <td>${usr.phone}</td>
-                <td><span class="badge">${usr.role}</span></td>
-                <td><span class="badge ${usr.status == 'ACTIVE' ? 'badge-success' : (usr.status == 'SUSPENDED' ? 'badge-danger' : 'badge-warn')}">${usr.status}</span></td>
+                <td><span class="badge">${usr.role == 'STUDENT' ? 'Học viên' : (usr.role == 'PT' ? 'Huấn luyện viên' : 'Quản trị viên')}</span></td>
+                <td><span class="badge ${usr.status == 'ACTIVE' ? 'badge-success' : (usr.status == 'SUSPENDED' ? 'badge-danger' : 'badge-warn')}">${usr.status == 'ACTIVE' ? 'Hoạt động' : (usr.status == 'SUSPENDED' ? 'Bị khóa' : usr.status)}</span></td>
                 <td>${usr.createdAt}</td>
                 <td>
                     <c:choose>

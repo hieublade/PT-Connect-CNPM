@@ -11,21 +11,19 @@
              alt="Avatar" style="width:84px; height:84px; border-radius:50%; object-fit:cover; border:1px solid #cbd5e1;">
         <div>
             <div><strong>${u.fullName}</strong> (${u.email})</div>
-            <div>Trạng thái hồ sơ: <span class="badge">${ptProfile.verificationStatus}</span></div>
+            <div>Trạng thái hồ sơ: <span class="badge">${ptProfile.verificationStatus == 'VERIFIED' ? 'Đã xác thực' : (ptProfile.verificationStatus == 'REJECTED' ? 'Bị từ chối' : 'Chờ phê duyệt')}</span></div>
         </div>
     </div>
 
     <form method="post" action="${pageContext.request.contextPath}/manage-pt-profile" style="margin-bottom:16px;">
         <input type="hidden" name="action" value="SAVE_PROFILE">
         <div class="form-row"><label>Giới thiệu bản thân (Bio)</label><textarea id="txtBio" name="bio" rows="3">${ptProfile.bio}</textarea></div>
-        <div class="form-row"><label>Số năm kinh nghiệm</label><input id="txtExperienceYears" type="number" name="experienceYears" min="0" value="${ptProfile.experienceYears}" required
-               oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập số năm kinh nghiệm!' : 'Số năm kinh nghiệm không được âm!')" oninput="this.setCustomValidity('')"></div>
+        <div class="form-row"><label>Số năm kinh nghiệm</label><input id="txtExperienceYears" type="number" name="experienceYears" min="0" value="${ptProfile.experienceYears}" required></div>
         <div class="form-row"><label>Chính sách phụ thu theo địa điểm</label><input id="txtLocationPricingNote" type="text" name="locationPricingNote" value="${ptProfile.locationPricingNote}"></div>
         <div class="form-row"><label>Đường dẫn chứng chỉ / bằng cấp</label><input id="txtCertificateURL" type="text" name="certificateUrls" value="${ptProfile.certificateUrls}"></div>
         <div class="form-row">
             <label>Danh sách địa điểm nhận dạy (phân cách bằng dấu phẩy, tối thiểu 1 địa điểm)</label>
             <input id="optAvailableLocations" type="text" name="locationsText" required
-                   oninvalid="this.setCustomValidity('Vui lòng nhập ít nhất một địa điểm nhận dạy!')" oninput="this.setCustomValidity('')"
                    value="<c:forEach var='l' items='${ptProfile.locations}' varStatus='st'>${l.locationName}<c:if test='${!st.last}'>, </c:if></c:forEach>">
             <small>Khu vực gợi ý trên hệ thống:
                 <c:forEach var="av" items="${availableLocations}" varStatus="avs">
@@ -39,8 +37,7 @@
     <hr style="margin:16px 0; border:none; border-top:1px solid #e2e8f0;">
     <form method="post" action="${pageContext.request.contextPath}/manage-pt-profile" enctype="multipart/form-data">
         <input type="hidden" name="action" value="UPLOAD_AVATAR">
-        <div class="form-row"><label>Tải ảnh đại diện mới</label><input type="file" name="avatarFile" accept="image/*" required
-               oninvalid="this.setCustomValidity('Vui lòng chọn tệp ảnh đại diện!')" oninput="this.setCustomValidity('')"></div>
+        <div class="form-row"><label>Tải ảnh đại diện mới</label><input type="file" name="avatarFile" accept="image/*" required></div>
         <button type="submit" class="btn btn-secondary">Cập Nhật Ảnh Đại Diện</button>
     </form>
 </div>
