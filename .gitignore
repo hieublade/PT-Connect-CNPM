@@ -28,3 +28,7 @@ Desktop.ini
 *.log
 cookies.txt
 *.tmp
+
+# Uploads
+uploads/
+src/main/webapp/uploads/

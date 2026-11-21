@@ -10,9 +10,12 @@
 
     <form method="post" action="${pageContext.request.contextPath}/manage-slot" class="grid">
         <input type="hidden" name="action" value="OPEN_SLOT">
-        <div class="form-row"><label>Ngày rảnh</label><input id="txtDate" type="date" name="date" required></div>
-        <div class="form-row"><label>Giờ bắt đầu</label><input id="txtStartTime" type="time" name="startTime" required></div>
-        <div class="form-row"><label>Giờ kết thúc</label><input id="txtEndTime" type="time" name="endTime" required></div>
+        <div class="form-row"><label>Ngày rảnh</label><input id="txtDate" type="date" name="date" required
+               oninvalid="this.setCustomValidity('Vui lòng chọn ngày mở khung giờ rảnh!')" oninput="this.setCustomValidity('')"></div>
+        <div class="form-row"><label>Giờ bắt đầu</label><input id="txtStartTime" type="time" name="startTime" required
+               oninvalid="this.setCustomValidity('Vui lòng chọn giờ bắt đầu!')" oninput="this.setCustomValidity('')"></div>
+        <div class="form-row"><label>Giờ kết thúc</label><input id="txtEndTime" type="time" name="endTime" required
+               oninvalid="this.setCustomValidity('Vui lòng chọn giờ kết thúc!')" oninput="this.setCustomValidity('')"></div>
         <div class="form-row" style="display:flex; align-items:flex-end;">
             <button id="btnOpenSlot" type="submit" class="btn">Mở Khung Giờ</button>
         </div>

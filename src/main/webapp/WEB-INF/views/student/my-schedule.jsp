@@ -46,7 +46,9 @@
                         <form method="post" action="${pageContext.request.contextPath}/my-schedule" style="margin-top:6px; display:flex; gap:4px;">
                             <input type="hidden" name="action" value="OTP_CHECKIN">
                             <input type="hidden" name="bookingId" value="${b.id}">
-                            <input type="text" name="otpCode" placeholder="Nhập OTP 6 số" maxlength="6" style="width:120px; padding:4px;" required>
+                            <input type="text" name="otpCode" placeholder="Nhập OTP 6 số" maxlength="6" style="width:120px; padding:4px;" required
+                                   oninvalid="this.setCustomValidity('Vui lòng nhập mã OTP 6 số!')"
+                                   oninput="this.setCustomValidity('')">
                             <button id="btnOTPCheckin" type="submit" class="btn btn-success">Xác nhận OTP</button>
                         </form>
                     </c:if>

@@ -15,10 +15,14 @@
             <div class="alert-error">${error}</div>
         </c:if>
         <form method="post" action="${pageContext.request.contextPath}/register">
-            <div class="form-row"><label>Họ và tên</label><input type="text" name="fullName" required></div>
-            <div class="form-row"><label>Email</label><input type="email" name="email" required></div>
-            <div class="form-row"><label>Số điện thoại</label><input type="text" name="phone" required></div>
-            <div class="form-row"><label>Mật khẩu</label><input type="password" name="password" required></div>
+            <div class="form-row"><label>Họ và tên</label><input type="text" name="fullName" required
+                   oninvalid="this.setCustomValidity('Vui lòng nhập họ và tên!')" oninput="this.setCustomValidity('')"></div>
+            <div class="form-row"><label>Email</label><input type="email" name="email" required
+                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập địa chỉ email!' : 'Địa chỉ email không đúng định dạng!')" oninput="this.setCustomValidity('')"></div>
+            <div class="form-row"><label>Số điện thoại</label><input type="text" name="phone" required
+                   oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại!')" oninput="this.setCustomValidity('')"></div>
+            <div class="form-row"><label>Mật khẩu</label><input type="password" name="password" required
+                   oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu!')" oninput="this.setCustomValidity('')"></div>
             <div class="form-row">
                 <label>Vai trò</label>
                 <select name="role">

@@ -19,7 +19,9 @@
         </div>
         <div class="form-row">
             <label>Số tiền nạp (VND)</label>
-            <input id="txtCustomAmount" type="number" name="amount" min="10000" max="100000000" value="2000000" required>
+            <input id="txtCustomAmount" type="number" name="amount" min="10000" max="100000000" value="2000000" required
+                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập số tiền cần nạp!' : (this.validity.rangeUnderflow ? 'Số tiền nạp tối thiểu là 10.000 đ!' : 'Số tiền nạp tối đa là 100.000.000 đ!'))"
+                   oninput="this.setCustomValidity('')">
         </div>
         <div class="form-row">
             <label>Phương thức thanh toán</label>

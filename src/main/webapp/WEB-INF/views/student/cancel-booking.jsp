@@ -8,7 +8,9 @@
         <input type="hidden" name="bookingId" value="${booking.id}">
         <div class="form-row">
             <label>Lý do hủy lịch</label>
-            <input id="txtCancelReason" type="text" name="cancelReason" required placeholder="Nhập lý do hủy...">
+            <input id="txtCancelReason" type="text" name="cancelReason" required placeholder="Nhập lý do hủy..."
+                   oninvalid="this.setCustomValidity('Vui lòng nhập lý do hủy lịch ca tập!')"
+                   oninput="this.setCustomValidity('')">
         </div>
         <button id="btnConfirmCancel" type="submit" class="btn btn-danger">Xác Nhận Hủy Lịch</button>
         <a class="btn btn-secondary" href="${pageContext.request.contextPath}/my-schedule">Quay lại</a>

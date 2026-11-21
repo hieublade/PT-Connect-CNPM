@@ -17,7 +17,9 @@
         <input type="hidden" name="action" value="SAVE_URL">
         <div class="form-row">
             <label>Đường dẫn URL ảnh đại diện</label>
-            <input id="txtAvatarURL" type="url" name="avatarUrl" value="${avatarURL}" placeholder="https://..." required>
+            <input id="txtAvatarURL" type="url" name="avatarUrl" value="${avatarURL}" placeholder="https://..." required
+                   oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập đường dẫn URL ảnh!' : 'Vui lòng nhập đường dẫn URL hợp lệ (bắt đầu bằng http:// hoặc https://)!')"
+                   oninput="this.setCustomValidity('')">
         </div>
         <button id="btnSaveAvatarURL" type="submit" class="btn">Lưu Đường Link Ảnh</button>
     </form>
@@ -26,7 +28,9 @@
         <input type="hidden" name="action" value="UPLOAD_FILE">
         <div class="form-row">
             <label>Hoặc tải file ảnh từ máy tính (.png, .jpg, .webp)</label>
-            <input type="file" name="avatarFile" accept="image/*" required>
+            <input type="file" name="avatarFile" accept="image/*" required
+                   oninvalid="this.setCustomValidity('Vui lòng chọn một tệp ảnh (.png, .jpg, .webp) trước khi tải lên!')"
+                   oninput="this.setCustomValidity('')">
         </div>
         <button id="btnUploadFile" type="submit" class="btn btn-secondary">Lưu Ảnh Tải Lên Làm Avatar</button>
     </form>

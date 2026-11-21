@@ -20,11 +20,15 @@
         <form method="post" action="${pageContext.request.contextPath}/login">
             <div class="form-row">
                 <label>Email</label>
-                <input type="email" name="email" required placeholder="Nhập địa chỉ email">
+                <input type="email" name="email" required placeholder="Nhập địa chỉ email"
+                       oninvalid="this.setCustomValidity(this.validity.valueMissing ? 'Vui lòng nhập địa chỉ email!' : 'Địa chỉ email không hợp lệ (cần có ký tự @)!')"
+                       oninput="this.setCustomValidity('')">
             </div>
             <div class="form-row">
                 <label>Mật khẩu</label>
-                <input type="password" name="password" required placeholder="Nhập mật khẩu">
+                <input type="password" name="password" required placeholder="Nhập mật khẩu"
+                       oninvalid="this.setCustomValidity('Vui lòng nhập mật khẩu!')"
+                       oninput="this.setCustomValidity('')">
             </div>
             <button type="submit" class="btn" style="width: 100%;">Đăng nhập</button>
         </form>
