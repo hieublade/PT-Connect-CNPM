@@ -31,7 +31,6 @@ public class ProfileServlet extends HttpServlet {
         req.setAttribute("u", u);
         req.setAttribute("avatarURL", u != null ? u.getAvatarUrl() : "");
         req.getRequestDispatcher("/WEB-INF/views/student/profile.jsp").forward(req, resp);
-        req.getRequestDispatcher("/WEB-INF/views/student/profile.jsp").forward(req, resp);
     }
 
     @Override
