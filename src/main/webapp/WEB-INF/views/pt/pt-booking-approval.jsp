@@ -15,7 +15,10 @@
         </select>
         <button type="submit" class="btn">Lọc</button>
     </form>
+</div>
 
+<c:if test="${statusFilter == 'ALL' || statusFilter == 'PENDING'}">
+<div class="card">
     <h3>Ca Tập Chờ Phê Duyệt (${pendingBookingList.size()})</h3>
     <table id="tblPendingBookingList">
         <thead><tr><th>Mã ca</th><th>Loại</th><th>Học viên (SĐT)</th><th>Thời gian</th><th>Giá trị</th><th>Ghi chú</th><th>Thao tác</th></tr></thead>
@@ -52,7 +55,9 @@
         </tbody>
     </table>
 </div>
+</c:if>
 
+<c:if test="${statusFilter == 'ALL' || statusFilter == 'CONFIRMED'}">
 <div class="card">
     <h3>Ca Tập Đã Xác Nhận (${confirmedBookingList.size()})</h3>
     <table id="tblConfirmedBookingList">
@@ -106,4 +111,42 @@
         </tbody>
     </table>
 </div>
+</c:if>
+
+<c:if test="${statusFilter == 'ALL' || statusFilter == 'COMPLETED' || statusFilter == 'CANCELLED'}">
+<div class="card">
+    <h3>Danh Sách Ca Tập Khác (${otherBookingList.size()})</h3>
+    <table id="tblOtherBookingList">
+        <thead>
+            <tr>
+                <th>Mã ca</th>
+                <th>Trạng thái</th>
+                <th>Học viên</th>
+                <th>Thời gian</th>
+                <th>Địa điểm</th>
+                <th>Giá trị</th>
+            </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="b" items="${otherBookingList}">
+            <tr>
+                <td>#${b.id}</td>
+                <td>
+                    <span class="badge ${b.status == 'COMPLETED' ? 'badge-success' : 'badge-danger'}">
+                        ${b.status}
+                    </span>
+                </td>
+                <td>${b.studentName}</td>
+                <td class="nowrap">
+                    <div><strong>${fn:substring(b.slotStartTime, 0, 10)}</strong></div>
+                    <small>${fn:substring(b.slotStartTime, 11, 16)} – ${fn:substring(b.slotEndTime, 11, 16)}</small>
+                </td>
+                <td>${b.trainingLocation}</td>
+                <td class="nowrap"><fmt:formatNumber value="${b.sessionFee}" type="number" maxFractionDigits="0"/> đ</td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
+</c:if>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
